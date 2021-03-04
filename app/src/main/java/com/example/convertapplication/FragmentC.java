@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,12 +38,30 @@ public class FragmentC extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_c, container, false);
 
         etKelvin =  v.findViewById(R.id.et_kelvin);
-        v.findViewById(R.id.button_to_kelvin).setOnClickListener(bv -> {
-            String input = etKelvin.getText().toString();
+        etKelvin.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            //stuur informatie naar Fragment b
+            }
 
-            listener.onInputCSent(input);
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(etKelvin.hasFocus()){
+                    String input = etKelvin.getText().toString();
+
+                    //stuur informatie naar Fragment b & a
+
+                    if(!TextUtils.isEmpty(input)){
+                        listener.onInputCSent(input);
+                    }
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
         });
 
         return v;

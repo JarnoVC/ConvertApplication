@@ -5,6 +5,9 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +31,6 @@ public class FragmentA extends Fragment {
 
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -36,12 +38,38 @@ public class FragmentA extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_a, container, false);
 
         etCelcius =  v.findViewById(R.id.et_celcius);
-        v.findViewById(R.id.button_to_fahrenheit).setOnClickListener(bv -> {
+        /*v.findViewById(R.id.button_to_fahrenheit).setOnClickListener(bv -> {
             String input = etCelcius.getText().toString();
 
             //stuur informatie naar Fragment b
 
             listener.onInputASent(input);
+        });*/
+
+        etCelcius.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+               if(etCelcius.hasFocus()){
+                   String input = etCelcius.getText().toString();
+
+                   //stuur informatie naar Fragment b & c
+
+                   if(!TextUtils.isEmpty(input)){
+                       listener.onInputASent(input);
+                   }
+               }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
         });
 
         return v;

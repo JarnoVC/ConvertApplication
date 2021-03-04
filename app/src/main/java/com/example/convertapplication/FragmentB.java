@@ -2,6 +2,9 @@ package com.example.convertapplication;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,12 +36,30 @@ public class FragmentB extends Fragment {
         View v =  inflater.inflate(R.layout.fragment_b, container, false);
 
         etFahrenheit =  v.findViewById(R.id.et_fahrenheit);
-        v.findViewById(R.id.button_to_celcius).setOnClickListener(bv -> {
-            String input = etFahrenheit.getText().toString();
+        etFahrenheit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            //stuur informatie naar Fragment b
+            }
 
-            listener.onInputBSent(input);
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(etFahrenheit.hasFocus()){
+                    String input = etFahrenheit.getText().toString();
+
+                    //stuur informatie naar Fragment a & c
+
+                    if(!TextUtils.isEmpty(input)){
+                        listener.onInputBSent(input);
+                    }
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
         });
 
         return v;
